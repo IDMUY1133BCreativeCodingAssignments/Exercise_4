@@ -7,8 +7,6 @@ var minFontSize = 15;
 var maxFontSize = 800;
 var newFontSize = 0;
 
-var spacing = 2; // line height
-var tracking = 0; // between letters
 
 var fontSizes = new Array(input.length);
 
@@ -22,6 +20,8 @@ function preload(){
 
 function setup(){
 	createCanvas(800, 600);
+    background(255);
+
     stroke(100);
     noFill();
 	textFont(theFont);
@@ -36,10 +36,7 @@ function setup(){
 
 function draw(){
     text(input);
-    
-    
-	background(255);
-    
+        
     action();
 	
 	}
