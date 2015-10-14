@@ -1,29 +1,19 @@
-   // if(mouseX > 288 && mouseX < 617 && mouseY > 424 && mouseY < 664){
-        //if(mouseX >  204 && mouseX < 535 && mouseY > 100 && mouseY < 640){
-            //288, 273 ------ 617, 424 -------- 204, 663
-       //204, 663 -------- 288, 273 -------617, 424
+var pepperoni, pepper, olive, pineapple, sausage, button, pizza, mushroom; //image variables
 
-//PIZZA BUILDER
-//rotates toppings, either let user place topping or randomly place down 
-//when pizza is done, maybe give user the option to either:
-//clone pizza(cover canvas with pizza) 
-//just make the pizza "dance" and move around the screen and rotate
-//HAVE AN ARRAY OF IMAGES, EACH IMAGE IS LOADED IN AFTER ADDED
-//THEN YOU CAN (PROBABLY) MANIPULATE WHOLE ARRAY? 
-
-var pepperoni, pepper, olive, pineapple, sausage, button, pizza, mushroom,
-input, enterButton, doneButton;
+var input, enterButton, doneButton, danceButton, cloneButton;
 var toppingImg;
-var x = 800;
-var index = 0;
-var danceButton;
-var cloneButton;
-var dancePressed = false;
+var x = 1000; //location of header at top
+var index = 0; //used in conjunction with arrays
+
+var dancePressed = false; //determines whether to dance or clone pizza in draw function
 var clonePressed = false;
 
-var locationX = [];
-var locationY = []; 
-var toppings = [];
+var moveX; //how much to move the pizza to dance
+var moveY; 
+
+var locationX = []; //populated with x coordinates of images
+var locationY = []; //populated with y coordinates of images
+var toppings = []; //populated with topping images
 
 var header = "Welcome to Pizza Builder!";
 var question = "Which topping would you like? Type your answer in all lowercase please. Your choices are pepperoni, pepper, \n sausage, pineapple, mushroom, and olive."; 
@@ -42,12 +32,13 @@ function preload(){
 }
 
 function setup(){
-    frameRate(50);
-    textFont("Courier New");
+    //frameRate(50);
+    textFont("Courier New"); //better looking font than default
     createCanvas(1000, 800); 
-    angleMode(DEGREES);
+    angleMode(DEGREES); //used later for rotate
     
-    image(pizza, 207, 202, pizza.width/2, pizza.height/2); //is the base pizza
+    image(pizza, 207, 202, pizza.width/2, pizza.height/2); //is the base pizza, original pizza 
+    //too big so made it smaller
     
     textSize(15);
     text(question, 10, 60); //prompts user for topping 
@@ -58,13 +49,12 @@ function setup(){
     enterButton.mousePressed(addTopping); //when they press on the enter, do add topping function
     doneButton = createButton('done');
     doneButton.position(210, 100);
-    doneButton.mousePressed(showOp);
+    doneButton.mousePressed(showOp); //do the showOp function to let user choose between clone and dance
     
 }
 
 function draw(){
-        //console.log(mouseX, mouseY);
-    //console.log(index);
+    if(!dancePressed && !clonePressed){
     noStroke();
     fill(255);
     rect(0, 0, 1000, 35); //prevents a whole strip of "Welcome to Pizza Builder" to show
@@ -75,11 +65,23 @@ function draw(){
     if(x < 0){
         x = 1000;
     }
+    }
     if(dancePressed){
+        fill(255);
+        rect(0, 0, 1000, 35);
+        fill(random(255), random(255), random(255));
+        textSize(25);
+        text("DANCE DANCE DANCE DANCE" , x, 25);
+        x = x - 2; //moves the header at top
+    if(x < 0){
+        x = 1000;
+    }
         danceNow(); //when dance button has been pressed, it'll make the pizza continuously dance 
         //through draw function
     }
     if(clonePressed){
+         fill(255);
+        rect(0, 0, 1000, 35); //blocks Welcome to Pizza Builder header
        cloneNow();
     }
     }
@@ -119,30 +121,17 @@ function addTopping(){
         text("Incorrect entry. Try again.", 10, 145);
              toppingImg = ""; //if they type something wrong it tells them and doesn't place anything 
         }
-    
 }
 
-/*
-function rotateTopping(topping_Img){ //rotate the topping so it looks more ""realistic""?
-    rotate(random(-180, 180));
-}
-*/
+
 function mousePressed(){
     if(inPizza()){
-        
         var mouse_X = mouseX;
         var mouse_Y = mouseY;
         locationX[index] = mouseX; //supplies arrays with images to be used when changing pizza
         locationY[index] = mouseY;
         toppings[index] = toppingImg;
-        
         push();
-        constrain(mouse_X, 291, 700);
-        constrain(mouse_Y, 200, 668);
-        //rotate(random(0, 30));
-        //constrain(mouse_X, 291, 700);
-        //constrain(mouse_Y, 200, 668);
-        //image(toppingImg, mouseX, mouseY);
         image(toppings[index], locationX[index], locationY[index]);
         pop();
         index++;
@@ -150,16 +139,20 @@ function mousePressed(){
 }
 
 function showOp(){
+  toppingImg = ""; //resets everything so user can't add more toppings, and gets rid of unnecessary instructions
+  noStroke();
+  fill(255);
+  rect(0, 155, 500, -30);
   input.hide(); //hides buttons so user can't input anything else 
   enterButton.hide();
   doneButton.hide();
-  var dance = "Make the pizza dance.";
-  var clone = "Topping party!!!";
+  var dance = "Dancing Pizza!!!";
+  var clone = "Topping Party!!!";
   danceButton = createButton(dance);
   cloneButton = createButton(clone);
-  danceButton.position(30, 100);
+  danceButton.position(30, 100); //positions dance and clone buttons
   cloneButton.position(180, 100);
-  danceButton.mousePressed(danceTrue);
+  danceButton.mousePressed(danceTrue); //does corresponding functions once button pressed
   cloneButton.mousePressed(cloneTrue);
 }
 
@@ -183,7 +176,7 @@ function inPizza(){
 
 function danceTrue(){
     dancePressed = true;
-    danceButton.hide();
+    danceButton.hide(); //hides the buttons once they choose an option 
     cloneButton.hide();
 }
 
@@ -194,8 +187,25 @@ function cloneTrue(){
 }
 
 function danceNow(){
-  
+    fill(255);
+    rect(0,35, 1000, 800);
+    moveX = random(-20, 20); //determines how much to move pizza by in it's dancing
+    moveY = random(-20,20);
+    push();
+    scale(.5);
+    image(pizza, 298 + moveX, 230 + moveY);
+    pop();
+    for(var i = 0; i < index; i++){
+        push();
+        translate(-80, -80); //for small size nuance in pizza png file 
+        //because pizza png file is technically rectangular, the coordinates i put in image() were  not accurate coordinates for where the pizza itself started, only the start of the canvas. 
+        //so i adjusted the toppings accordingly with the translate
+        image(toppings[i], locationX[i] + moveX, locationY[i] + moveY); //moves toppings the same distance
+        pop();
+    }
+    
 }
+
 
 function cloneNow(){
     //inspo from: http://p5js.org/examples/examples/Dom_Input_and_Button.php
@@ -203,7 +213,7 @@ function cloneNow(){
             push();
             translate(random(width), random(height));
             rotate(random(360));
-            image(toppings[i], locationX[i], locationY[i]);
+            image(toppings[i], locationX[i], locationY[i]); //retrieves toppings used from before and     places them somewhere on canvas
             pop();
     }
 }
