@@ -1,19 +1,29 @@
+   // if(mouseX > 288 && mouseX < 617 && mouseY > 424 && mouseY < 664){
+        //if(mouseX >  204 && mouseX < 535 && mouseY > 100 && mouseY < 640){
+            //288, 273 ------ 617, 424 -------- 204, 663
+       //204, 663 -------- 288, 273 -------617, 424
+
 //PIZZA BUILDER
 //rotates toppings, either let user place topping or randomly place down 
 //when pizza is done, maybe give user the option to either:
 //clone pizza(cover canvas with pizza) 
 //just make the pizza "dance" and move around the screen and rotate
+//HAVE AN ARRAY OF IMAGES, EACH IMAGE IS LOADED IN AFTER ADDED
+//THEN YOU CAN (PROBABLY) MANIPULATE WHOLE ARRAY? 
 
-//TO DO: implement statement when user doesn't input correctly
-//find a way to erase instruction text after each runtime so the words won't overlap 
 var pepperoni, pepper, olive, pineapple, sausage, button, pizza, mushroom,
 input, enterButton, doneButton;
 var toppingImg;
 var x = 800;
+var index = 0;
 var danceButton;
 var cloneButton;
 var dancePressed = false;
 var clonePressed = false;
+
+var locationX = [];
+var locationY = []; 
+var toppings = [];
 
 var header = "Welcome to Pizza Builder!";
 var question = "Which topping would you like? Type your answer in all lowercase please. Your choices are pepperoni, pepper, \n sausage, pineapple, mushroom, and olive."; 
@@ -32,12 +42,15 @@ function preload(){
 }
 
 function setup(){
+    frameRate(50);
     textFont("Courier New");
     createCanvas(1000, 800); 
     angleMode(DEGREES);
-    image(pizza, 0, height/5, pizza.width/2, pizza.height/2); //is the base pizza
+    
+    image(pizza, 207, 202, pizza.width/2, pizza.height/2); //is the base pizza
+    
     textSize(15);
-    text(question, 10, 60); //requests
+    text(question, 10, 60); //prompts user for topping 
     input = createInput(); //lets the user put in something
     input.position(30, 100);
     enterButton = createButton('enter'); //creates button for person to press
@@ -50,6 +63,8 @@ function setup(){
 }
 
 function draw(){
+        //console.log(mouseX, mouseY);
+    //console.log(index);
     noStroke();
     fill(255);
     rect(0, 0, 1000, 35); //prevents a whole strip of "Welcome to Pizza Builder" to show
@@ -65,9 +80,10 @@ function draw(){
         //through draw function
     }
     if(clonePressed){
-        cloneNow(); //when clone button has been pressed, it'll clone the pizza in canvas
+       cloneNow();
     }
-}
+    }
+
 
 function addTopping(){
     var topping = input.value();
@@ -113,21 +129,32 @@ function rotateTopping(topping_Img){ //rotate the topping so it looks more ""rea
 */
 function mousePressed(){
     if(inPizza()){
+        
         var mouse_X = mouseX;
         var mouse_Y = mouseY;
+        locationX[index] = mouseX; //supplies arrays with images to be used when changing pizza
+        locationY[index] = mouseY;
+        toppings[index] = toppingImg;
+        
         push();
-        rotate(random(0, 30));
-        image(toppingImg, mouse_X, mouse_Y);
+        constrain(mouse_X, 291, 700);
+        constrain(mouse_Y, 200, 668);
+        //rotate(random(0, 30));
+        //constrain(mouse_X, 291, 700);
+        //constrain(mouse_Y, 200, 668);
+        //image(toppingImg, mouseX, mouseY);
+        image(toppings[index], locationX[index], locationY[index]);
         pop();
-
+        index++;
     }
 }
 
 function showOp(){
   input.hide(); //hides buttons so user can't input anything else 
   enterButton.hide();
+  doneButton.hide();
   var dance = "Make the pizza dance.";
-  var clone = "Clone the pizza!";
+  var clone = "Topping party!!!";
   danceButton = createButton(dance);
   cloneButton = createButton(clone);
   danceButton.position(30, 100);
@@ -137,7 +164,15 @@ function showOp(){
 }
 
 function inPizza(){
-    if(mouseX > 291 && mouseX < 700 && mouseY > 200 && mouseY < 668){
+    //for some reason makes the program crash? 
+  // for(var x_ = 622; x > 208; x_--){
+    //y = (.575) * x_ + 564;
+    //if(mouseX < x_ && mouseY > y){
+      // return false;
+    //}
+   // }
+ if(mouseX > 207 && mouseX + toppingImg.width < 697 && mouseY > 202 && mouseY +
+    toppingImg.height < 670){ 
         return true;
     }
     else{
@@ -148,28 +183,27 @@ function inPizza(){
 
 function danceTrue(){
     dancePressed = true;
-    doneButton.hide();
     danceButton.hide();
+    cloneButton.hide();
 }
 
 function cloneTrue(){
     clonePressed = true;
-    donebutton.hide();
     cloneButton.hide();
+    danceButton.hide();
 }
 
 function danceNow(){
-    //constrain? 
-    //
+  
 }
 
 function cloneNow(){
-    //http://p5js.org/examples/examples/Dom_Input_and_Button.php
-    //for (var times = 300; times > 0; times--){
-    //push();
-    //translate(random(width), random(height));
-    //rotate(random(180));
-    //pop();
-    //}
-    
+    //inspo from: http://p5js.org/examples/examples/Dom_Input_and_Button.php
+    for(var i = 0; i < index; i++){
+            push();
+            translate(random(width), random(height));
+            rotate(random(360));
+            image(toppings[i], locationX[i], locationY[i]);
+            pop();
+    }
 }
