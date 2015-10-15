@@ -13,7 +13,7 @@ function preload(){
     img5 = loadImage("data/lefteye2.jpg");
     img6 = loadImage("data/lefteye3.jpg");
     
-    font = loadFont("data/NexaRustScriptL.otf");
+    font = loadFont("data/font0.otf");
     
    
     
@@ -86,8 +86,8 @@ function draw() {
         fill(255);
         rect(225, 200, 450,200);
         fill(0);
-        textFont(font, 200);
-        text("BLINK",430,300);
+        textFont(font, 100);
+        text("BLINK",250,340);
         
     }
 }
