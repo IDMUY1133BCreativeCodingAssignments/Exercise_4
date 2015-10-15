@@ -7,6 +7,11 @@ var  snap, sign, scary2, scary, morebird, love, wall, blurryys,us2, us, paul, bi
 var spin;
 var color;
 var x= 250
+var speed= 1;
+var speedg= -1;
+var y= 0;
+var star;
+var g= 350;
 
 function preload(){
    snap = loadImage("data/snap.PNG");
@@ -35,6 +40,8 @@ wall=loadImage("data/wall.JPG");
                                     
 spin = loadImage("data/imageedit_1_5035011954.gif");
     
+    star=loadImage("data/imageedit_1_8162934720.gif");
+    
 }
 
 function setup(){
@@ -49,30 +56,40 @@ function draw(){
     image(snap, 0, 0);
     image(scary2, 100, 0);
     image(wins,250,0);
-    image(paul,550,0);
+    image(paul,550,-100);
     image(food,700,0);
     image(us,0,150);
     image(ferris,300,150);
+    image(wall,450,150);
+    image(turtle,600,150);
+    image(betty,0,300);
+    image(bird,150,300);
+    image(us2,300,415);
+    image(jaeface,600,300);
+     image(seniaface,750,300);
+    image(sign,0,566);
+     image(names,150,566);
+     image(morebird,650,566);
     
     if(mouseX>=402){
-     fill(15,0,x,200);
+     fill(50,50,x,200);
     sky();
     }
      if(mouseX<402 && mouseX>=402-11){
-     fill(15,0,x-17,200);
+     fill(50,30,x-17,200);
     sky();
     }
     
     if(mouseX<402-11 && mouseX>=402-22){
-     fill(15,0,x-(2*17),200);
+     fill(50,30,x-(2*17),200);
     sky();
     }
     if(mouseX<402-22 && mouseX>=402-33){
-     fill(15,0,x-(17*3),200);
+     fill(30,30,x-(17*3),200);
     sky();
     }
     if(mouseX<402-33 && mouseX>=402-44){
-     fill(10,0,x-(17*4),200);
+     fill(20,0,x-(17*4),200);
     sky();
     }
      if(mouseX<402-44 && mouseX>=402-55){
@@ -112,10 +129,11 @@ function draw(){
     sky();
     }
     
- 
+    
    angleMode(RADIANS);
 //http://p5js.org/reference/#/p5/angleMode
    
+    //wheel
     push();
     translate(270, 530);
     translate(132,114);
@@ -123,7 +141,17 @@ function draw(){
     rotate(a);
     image(spin, -132,-114);
     pop();
-   
+    
+    //base
+    fill(150);
+    noStroke();
+    rect(388,715, 30, 10);
+    rect(388,735, 33, 10);
+    stroke(1);
+    triangle(402, 644, 392, 800, 362, 800);
+    triangle(402, 644, 412, 800, 444, 800);
+ 
+   //text
     strokeWeight(1);
     stroke(200,0,0);
     fill(255);
@@ -131,6 +159,12 @@ function draw(){
     textFont("Impact");
     text("Wonder", width/2-39 ,644);
     text("Wheel", width/2-31 ,666);
+    
+  
+    move();
+
+    image(star,y,200);
+    again();
   
    
 }
@@ -140,4 +174,17 @@ function sky(){
     
 }
 
+//function star(){
+  //image(star, y, 350); 
+//}
 
+function move(){
+    y = y + speed;
+    //g = g+speedg; 
+}
+    
+    function again(){
+    if (y > width){
+       y=-250
+    }
+}
