@@ -1,7 +1,9 @@
 var pepperoni, pepper, olive, pineapple, sausage, button, pizza, mushroom; //image variables
 
-var input, enterButton, doneButton, danceButton, cloneButton;
-var toppingImg;
+var input, enterButton, doneButton, danceButton, cloneButton; //all the buttons used
+
+var toppingImg; //refers to image being used as topping
+
 var x = 1000; //location of header at top
 var index = 0; //used in conjunction with arrays
 
@@ -20,7 +22,6 @@ var question = "Which topping would you like? Type your answer in all lowercase 
 var instruction = "Click where you'd like to add ";
 var wrong = "Invalid input. Make sure you're typing in all lowercase.";
 
-
 function preload(){
     pizza = loadImage("data/basepizza.png"); //.jpg doesn't support transparency 
     pepper = loadImage("data/pepper.png");
@@ -32,7 +33,6 @@ function preload(){
 }
 
 function setup(){
-    //frameRate(50);
     textFont("Courier New"); //better looking font than default
     createCanvas(1000, 800); 
     angleMode(DEGREES); //used later for rotate
@@ -64,7 +64,7 @@ function draw(){
     x = x - 2; //moves the header at top
     if(x < 0){
         x = 1000;
-    }
+        }
     }
     if(dancePressed){
         fill(255);
