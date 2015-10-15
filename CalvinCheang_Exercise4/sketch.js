@@ -8,6 +8,7 @@ var isOverBlock;
 var x = 400;
 var y = 500;
 var lyrics;
+var tilt = 0;
 
 
 function preload(){
@@ -33,43 +34,48 @@ function draw(){
     textSize(72);
     //question block
     image(que, 150, 150);
-    //changes to exlamation block on hover
+    //changes to exclamation block on hover
     if(mouseX < 350 && mouseX > 150 && mouseY < 350 && mouseY > 150){
         isOverBlock = true;
         image(exc, 150, 150); 
     }
      if(mouseIsPressed){
          cenation();
-         
-     
-    
- 
+         image(exc, 150, 150); 
+         //fixed the bug where images pop up in the center randomly
      }
+   
+
+//    image(exc, 150, 150); 
 }
 
 function cenation(){
     if(isOverBlock == true){
         //block stays exclamation
         image(exc, 150, 150);
-        //random pics of cena pop up
-        image(cena2, random(-1800,1800), random(-1800,1800));
-        image(cena3, random(-1800,1800), random(-1800,1800));
-        image(cena4, random(-1800,1800), random(-1800,1800));
-        image(cena5, random(-1800,1800), random(-1800,1800));
+        //cenas are titlted randomly when spawned
+         push();
+        rotate(tilt);
+        cenas();
+        tilt++;
+        pop();
+          
         //green bar on bottom
         fill(0,205,0);
-    rect(0,395,500, 60);
-    fill(255);
-text("JOHN CENA", x,450);
+    rect(0,439,500, 60);
+    fill(random(0,255), random(0,255), random(0,255));
+text("JOHN CENA", 50,495);
     x-=5;
         //rolling text
     if(x < -500){
         x=500;
     }
         fill(0, 205,0);
+        //green rect on top
     rect(0,0, 500, 50);
         textSize(40);
         fill(255);
+        //scrolling lyrics
         text(lyrics, y, 40);
         y-=5;
         if(y < -2500){
@@ -78,4 +84,11 @@ text("JOHN CENA", x,450);
     }
 }
 
+}
+//spawn cenas at random locations
+function cenas(){
+    image(cena2, random(-1000,1000), random(-1000,1000));
+        image(cena3, random(-1000,1000), random(-1000,1000));
+        image(cena4, random(-1000,1000), random(-1000,1000));
+        image(cena5, random(-1000,1000), random(-1000,1000));
 }
