@@ -1,4 +1,4 @@
- var font;
+ pimage font;
  var SEC;
  var angrysky;
  var beachpic;
