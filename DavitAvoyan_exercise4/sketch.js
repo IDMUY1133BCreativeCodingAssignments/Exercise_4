@@ -37,7 +37,7 @@ function draw(){
     background(255);
     image(img, 0, 0);  
     action();
-    //rhythm();
+    rhythm();
  
        
 }
@@ -87,9 +87,9 @@ function action(){  //outputting user input
         y=y+fontSizes[i];
          
          }
+
     
-     x=x+mouseX+velocity;//moving; can't figure out why it won't move, since it's part of action() which is part of draw 
-                        //is executed over and over again
+    // x=x+mouseX+velocity;
     
      if((x > width || x < 0)){  //bounce back once it reaches the bounds of our canvas
          velocity = -velocity;
@@ -100,5 +100,4 @@ function action(){  //outputting user input
  
 	
 }
-
 
